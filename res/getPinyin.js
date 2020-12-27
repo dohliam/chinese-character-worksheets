@@ -4,7 +4,7 @@
 *	Function callback(result) = function that will be called after getPinyin is done
 */
 function getPinyin(character, callback){
-	var requestUrl = "https://cors.io/?https://glosbe.com/transliteration/api?from=Han&dest=Latin&text="
+	var requestUrl = "https://CORS-Anywhere.HerokuApp.com/https://glosbe.com/transliteration/api?from=Han&dest=Latin&text="
 			+ encodeURI(character)
 			+ "&format=json";
 	$.getJSON(requestUrl, function(data){
