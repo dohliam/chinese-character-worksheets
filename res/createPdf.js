@@ -65,23 +65,30 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 					doc.setFont('AR PL UKai CN');
 					doc.setFontSize(14); //in pt
 					doc.text(docTitle, 105, 16, 'center'); // A4_width/2 = 210 mm/2 = 105
-				// write page number
-					doc.setFont('Noto Sans');
-					doc.setFontSize(10); //in pt
-					//doc.text("第" + curPage + "页，共" + totalPages + "页", 201, 16, 'right'); // 201 is 210-rightIndent
-					doc.text(curPage + "/" + totalPages, 201, 16, 'right'); // 201 is 210-rightIndent
-				// copyright on the bottom
-					doc.setFont('Noto Sans');
-					doc.setFontSize(10); //in pt
-					var copyrightText = 'Create your own Chinese worksheets for free: www.is.gd/ch_ex';
-					var copyrightTextWidth = doc.getTextWidth(copyrightText) + 2;
-					var copyrightTextHeight = doc.internal.getLineHeight()/doc.internal.scaleFactor + 1;
-					doc.text(copyrightText, 105, charLineDistance * (charsPerPage+1) - 3, 'center');
-					doc.link(105 - copyrightTextWidth/2,
-						charLineDistance * (charsPerPage+1) - 1.5 - copyrightTextHeight,
-						copyrightTextWidth,
-						copyrightTextHeight,
-						{ url: 'https://is.gd/ch_ex'});
+					if (window["page-numbers"].checked) {
+					// write page number
+						doc.setFont('AR PL UKai CN');
+	// 					doc.setFont('Noto Sans');
+						doc.setFontSize(10); //in pt
+						doc.text("第" + curPage + "頁，共" + totalPages + "頁", 201, 16, 'right'); // 201 is 210-rightIndent
+	// 					doc.text("第" + curPage + "页，共" + totalPages + "页", 201, 16, 'right'); // 201 is 210-rightIndent
+	// 					doc.text(curPage + "/" + totalPages, 201, 16, 'right'); // 201 is 210-rightIndent
+					}
+					if (window["print-footer"].checked) {
+					// copyright on the bottom
+						doc.setFont('Noto Sans');
+						doc.setFontSize(10); //in pt
+// 						var copyrightText = '';
+						var copyrightText = 'Create your own Chinese worksheets for free: www.is.gd/ch_ex';
+						var copyrightTextWidth = doc.getTextWidth(copyrightText) + 2;
+						var copyrightTextHeight = doc.internal.getLineHeight()/doc.internal.scaleFactor + 1;
+						doc.text(copyrightText, 105, charLineDistance * (charsPerPage+1) - 3, 'center');
+						doc.link(105 - copyrightTextWidth/2,
+							charLineDistance * (charsPerPage+1) - 1.5 - copyrightTextHeight,
+							copyrightTextWidth,
+							copyrightTextHeight,
+							{ url: 'https://is.gd/ch_ex'});
+					}
 			}
 			thisLineYUpLeft = yUpLeft + (i%charsPerPage) * charLineDistance;
 			// paste hanzi-write Stroke Order SVGs
