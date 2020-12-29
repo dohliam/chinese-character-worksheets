@@ -51,6 +51,20 @@
 				</td>
 			</tr>
 			<tr>
+				<td><label for="grid-style">Grid style<sup class="refSup" data-ref="gridlines"></sup>:</label></td>
+				<td>
+					<form id="grid-style">
+						<input type="radio" name="grstyle" value="tian" checked="checked">田-style grid <em>(vertical and horizontal bars)</em><br>
+						<input type="radio" name="grstyle" value="mi">米-style grid <em>(vertical, horizontal, and diagonal bars)</em><br>
+						<input type="radio" name="grstyle" value="hui">回-style grid <em>(small rectangular box inside of grid borders)</em><br>
+						<input type="radio" name="grstyle" value="tianhui">田/回-style grid <em>(vertical and horizontal lines, with small rectangular box inside of grid borders)</em><br>
+						<input type="radio" name="grstyle" value="mihui">米/回-style grid <em>(vertical, horizontal, and diagonal bars + smaller rectangular box)</em><br>
+						<input type="radio" name="grstyle" value="none">None
+					</form>
+
+				</td>
+			</tr>
+			<tr>
 				<td><label for="grid-color">Grid color:</label></td>
 				<td>
 					<select id="grid-color">
@@ -78,8 +92,6 @@
 					<input type="checkbox" id="paste-so-images" name="paste-so-images" checked> <label for="paste-so-images">Add stroke orders to the characters</label>
 					<br/>
 					<input type="checkbox" id="write-pinyin" name="write-pinyin" checked> <label for="write-pinyin">Add Pīnyīn to the characters</label>
-					<br/>
-					<input type="checkbox" id="use-gridlines" name="use-gridlines" checked> <label for="use-gridlines">Use gridlines</label><sup class="refSup" data-ref="gridlines"></sup>
 					<br/>
 					<input type="checkbox" id="write-name" name="write-name" checked> <label for="write-name">Write "姓名：___" (name) on top</label>
 				</td>

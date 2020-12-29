@@ -2,10 +2,10 @@
 *	Creates Pdf from given params.
 *	characters, charPinyin : String arrays
 *	numberOfGrayscaleSigns : int
-*	writePinyin, useGridlines, writeName : Booleans
+*	writePinyin, writeName : Booleans
 *	docTitle, filename, wayOfRetrieval : Strings
 */
-function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, writePinyin, useGridlines, writeName, filename, charPinyin, wayOfRetrieval){
+function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, writePinyin, writeName, filename, charPinyin, wayOfRetrieval){
 	// make filename "filesystem-secure"
 		filename = filename.replace(/[^a-z0-9öäüß\s\-\_\u4E00-\u9FFF]/gi, '');
 		filename = filename == "" ? "my-chinese-exercise" : filename;
@@ -98,14 +98,17 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 					}
 				}
 			// gridlines - part 1
-				if(useGridlines){
-					doc.setDrawColor("D0D0D0");
-					// horizontal lines for all of the characters in the character line
-					doc.line(	xUpLeft,
-								thisLineYUpLeft + 0.5 * charLineHeight,
-								xUpLeft + 11 * charCellWidth,
-								thisLineYUpLeft + 0.5 * charLineHeight);
-					doc.setDrawColor("000000");
+				grstyle = window["grid-style"].grstyle.value;
+				if (grstyle != "none"){
+					if (grstyle.match(/tian|mi/)) {
+						doc.setDrawColor(gridColLight);
+						// horizontal lines for all of the characters in the character line
+						doc.line(	xUpLeft,
+									thisLineYUpLeft + 0.5 * charLineHeight,
+									xUpLeft + 11 * charCellWidth,
+									thisLineYUpLeft + 0.5 * charLineHeight);
+						doc.setDrawColor(charColDark);
+					}
 				}
 			// write pinyin
 				if(writePinyin){
@@ -116,16 +119,19 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 			// single characters along the character line
 			doc.setFont('AR PL UKai CN');
 			doc.setFontSize(40); //in pt
-			for(j = 0; j < 12; ++j){ // 11 chars per line
+			for (j = 0; j < 12; ++j){ // 11 chars per line
 				// gridlines - part 2
-					if(useGridlines && j < 11){
-						doc.setDrawColor("D0D0D0");
-						// vertical line per character
-						doc.line(
-							xUpLeft + (j+0.5) * charCellWidth,	// x1
-							thisLineYUpLeft,					// y1
-							xUpLeft + (j+0.5) * charCellWidth,	// x2
-							thisLineYUpLeft + charLineHeight);	// y2
+					if (grstyle != "none" && j < 11){
+						doc.setDrawColor(gridColLight);
+						if (grstyle.match(/tian|mi/)) {
+							// vertical line per character
+							doc.line(
+								xUpLeft + (j+0.5) * charCellWidth,	// x1
+								thisLineYUpLeft,					// y1
+								xUpLeft + (j+0.5) * charCellWidth,	// x2
+								thisLineYUpLeft + charLineHeight);	// y2
+						}
+						if (grstyle.match(/mi/)) {
 						// 2 diagonal lines per character
 							doc.setLineCap("round");
 							// "⭸" left top --> right bottom
@@ -141,7 +147,10 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 								xUpLeft + (j+1) * charCellWidth,	// x2
 								thisLineYUpLeft);					// y2
 							doc.setLineCap("projecting");
-						doc.setDrawColor("000000");
+						}
+						if (grstyle.match(/hui/)) {
+							doc.rect(xUpLeft + j * charCellWidth + 4.5, thisLineYUpLeft + 2, 8.034, 13);
+						}
 					}
 				doc.setDrawColor(gridColDark);
 				// vertical lines
