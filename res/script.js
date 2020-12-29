@@ -39,7 +39,6 @@ $(document).ready(function(){
 						Number($("#number-gray-signs").val())));
 			var pasteSoImages = $("#paste-so-images")	.is(':checked');
 			var writePinyin = $("#write-pinyin")		.is(':checked');
-			var useGridlines = $("#use-gridlines")		.is(':checked');
 			var writeName = $("#write-name")			.is(':checked');
 			var filename = $("#doc-filename").val() == "" ? docTitle : $("#doc-filename").val();
 			var wayOfRetrieval = $('input[name=way-of-retr]:checked').val();
@@ -64,11 +63,11 @@ $(document).ready(function(){
 							getPinyin(charactersString, function(r){
 								charPinyin = r.split(" "); // save pinyin
 								// create the pdf now
-								createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, writePinyin, useGridlines, writeName, filename, charPinyin, wayOfRetrieval);
+								createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, writePinyin, writeName, filename, charPinyin, wayOfRetrieval);
 							});
 						} else {
 							// create the pdf now
-							createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, writePinyin, useGridlines, writeName, filename, charPinyin, wayOfRetrieval);
+							createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, writePinyin, writeName, filename, charPinyin, wayOfRetrieval);
 						}
 					}
 				}
