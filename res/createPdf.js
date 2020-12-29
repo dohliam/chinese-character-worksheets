@@ -106,14 +106,19 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 				}
 			// gridlines - part 1
 				grstyle = window["grid-style"].grstyle.value;
+				dashed = window["dashed-grid"].checked;
 				if (grstyle != "none"){
 					if (grstyle.match(/tian|mi/)) {
 						doc.setDrawColor(gridColLight);
 						// horizontal lines for all of the characters in the character line
+						if (dashed) {
+							doc.setLineDash([1]);
+						}
 						doc.line(	xUpLeft,
 									thisLineYUpLeft + 0.5 * charLineHeight,
 									xUpLeft + 11 * charCellWidth,
 									thisLineYUpLeft + 0.5 * charLineHeight);
+						doc.setLineDash([0]);
 						doc.setDrawColor(charColDark);
 					}
 				}
@@ -130,6 +135,9 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 				// gridlines - part 2
 					if (grstyle != "none" && j < 11){
 						doc.setDrawColor(gridColLight);
+						if (dashed) {
+							doc.setLineDash([1]);
+						}
 						if (grstyle.match(/tian|mi/)) {
 							// vertical line per character
 							doc.line(
@@ -161,9 +169,10 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 					}
 				doc.setDrawColor(gridColDark);
 				// vertical lines
+				doc.setLineDash([]);
 				doc.line(xUpLeft + j * charCellWidth, thisLineYUpLeft, xUpLeft + j * charCellWidth, thisLineYUpLeft + charLineHeight);
 				// write first char (j=0) and grey chars (j=1,...,11)
-				doc.setTextColor(charColDark)
+				doc.setTextColor(charColDark);
 				if(j >= 1) doc.setTextColor(charColLight);  // set color to grey, so the supporting characters will be in grey
 				if(j == 11) doc.setTextColor(charColDark); // reset color to black
 				if(j <= numberOfGrayscaleSigns){ // it's either the first, black sign (j==0) or one of the grayscale signs (j=1,2,...,numberOfGrayscaleSigns)
