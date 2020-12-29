@@ -36,6 +36,17 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 		var charsPerPage = 11;
 		var imgProp;
 		var totalPages = Math.ceil(characters.length/charsPerPage); // total number of pages (pre-computed)
+
+	// set document colors
+		cols = { "black":"000000", "gray":"D0D0D0", "red":"CC0000", "green":"009900", "blue":"00A0CC" }
+		lightCols = { "black":"D0D0D0", "green":"C0D0BA", "red":"D0BABF", "blue":"BBBAD0" }
+		gridCol = window["grid-color"].value;
+		charCol = window["char-color"].value;
+		gridColDark = cols[gridCol];
+		charColDark = cols[charCol];
+		gridColLight = lightCols[gridCol];
+		charColLight = lightCols[charCol];
+
 		for(i = 0; i < characters.length; ++i){
 			if(i%charsPerPage == 0){ // if we're at the beginning of a page
 				if(i != 0){ // if reached beginning of new page (i \in {9,19,29,...}) => add new page (& focus on it)
@@ -132,11 +143,13 @@ function createPdf(docTitle, characters, numberOfGrayscaleSigns, pasteSoImages, 
 							doc.setLineCap("projecting");
 						doc.setDrawColor("000000");
 					}
+				doc.setDrawColor(gridColDark);
 				// vertical lines
 				doc.line(xUpLeft + j * charCellWidth, thisLineYUpLeft, xUpLeft + j * charCellWidth, thisLineYUpLeft + charLineHeight);
 				// write first char (j=0) and grey chars (j=1,...,11)
-				if(j == 1) doc.setTextColor("#D0D0D0");  // set color to grey, so the supporting characters will be in grey
-				if(j == 11) doc.setTextColor("#000000"); // reset color to black
+				doc.setTextColor(charColDark)
+				if(j >= 1) doc.setTextColor(charColLight);  // set color to grey, so the supporting characters will be in grey
+				if(j == 11) doc.setTextColor(charColDark); // reset color to black
 				if(j <= numberOfGrayscaleSigns){ // it's either the first, black sign (j==0) or one of the grayscale signs (j=1,2,...,numberOfGrayscaleSigns)
 					doc.text(characters[i], xUpLeft + (j + 0.5) * charCellWidth, thisLineYUpLeft + charLineHeight - 3, 'center');
 				}
